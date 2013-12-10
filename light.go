@@ -63,7 +63,7 @@ func (self *Light) GetLightAttributes() (*LightAttributes, error) {
 
 // SetName - sets the name of a light as per
 // http://developers.meethue.com/1_lightsapi.html#15_set_light_attributes_rename
-func (self Light) SetName(newName string) ([]Result, error) {
+func (self *Light) SetName(newName string) ([]Result, error) {
 	params := map[string]string{"name": newName}
 	data, err := json.Marshal(params)
 	if err != nil {
