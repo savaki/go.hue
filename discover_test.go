@@ -11,19 +11,19 @@ import (
 
 var username = os.Getenv("HUE_USERNAME")
 
-func TestDiscover(t *testing.T) {
-	bridges, err := Discover()
+func TestDiscoverBridges(t *testing.T) {
+	locators, err := DiscoverBridges()
 	if err != nil {
 		log.Printf("%+v\n", err)
 		t.Fail()
 	}
 
-	if bridges == nil {
-		log.Printf("bridges was null!  this should never happen\n")
+	if locators == nil {
+		log.Printf("locators was null!  this should never happen\n")
 		t.Fail()
 	}
 
-	log.Printf("%+v\n", bridges)
+	log.Printf("%+v\n", locators)
 }
 
 func TestDeserializeComplexMap(t *testing.T) {

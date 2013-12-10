@@ -7,9 +7,18 @@ import (
 	"net/http"
 )
 
-type AccessPoint interface {
+// BridgeLocator represents a factory method you can use to obtain a
+// bridge reference.
+type BridgeLocator interface {
+	// If this is your first time connnecting to a bridge,
+	// you'll want to call CreateUser(deviceType) where deviceType is any
+	// arbitrary string you can use to name your device.  This will ask
+	// the hub to create a new user with a random username.  The bridge
+	// returned back to you will be populated with the username
 	CreateUser(deviceType string) (*Bridge, error)
 
+	// Attach should be used when you already know the username and want
+	// to obtain a reference to the bridge
 	Attach(username string) *Bridge
 }
 
@@ -49,7 +58,10 @@ func (self localBridge) Attach(username string) *Bridge {
 	return &Bridge{IpAddr: self.IpAddr, Username: username}
 }
 
-func Discover() ([]AccessPoint, error) {
+// DiscoverBridges utilizes the hue api (https://www.meethue.com/api/nupnp) to
+// fetch a list of known bridges at the current location.  This method assumes
+// that you've already set up the hue and can access it via your mobile device
+func DiscoverBridges() ([]BridgeLocator, error) {
 	response, err := http.Get("https://www.meethue.com/api/nupnp")
 	if err != nil {
 		return nil, err
@@ -63,9 +75,9 @@ func Discover() ([]AccessPoint, error) {
 	}
 
 	// convert local bridges to access points
-	var points []AccessPoint
+	var points []BridgeLocator
 	for _, bridge := range bridges {
-		points = append(points, AccessPoint(bridge))
+		points = append(points, BridgeLocator(bridge))
 	}
 
 	return points, err

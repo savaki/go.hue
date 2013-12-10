@@ -46,6 +46,8 @@ type LightAttributes struct {
 	PointSymbol     map[string]string `json:"pointsymbol"`
 }
 
+// GetLightAttributes - retrieves light attributes and state as per
+// http://developers.meethue.com/1_lightsapi.html#14_get_light_attributes_and_state
 func (self Light) GetLightAttributes() (*LightAttributes, error) {
 	response, err := self.bridge.get("/lights/" + self.Id)
 	if err != nil {
@@ -58,6 +60,8 @@ func (self Light) GetLightAttributes() (*LightAttributes, error) {
 	return result, err
 }
 
+// SetName - sets the name of a light as per
+// http://developers.meethue.com/1_lightsapi.html#15_set_light_attributes_rename
 func (self Light) SetName(newName string) ([]Result, error) {
 	params := map[string]string{"name": newName}
 	data, err := json.Marshal(params)
@@ -76,6 +80,7 @@ func (self Light) SetName(newName string) ([]Result, error) {
 	return results, err
 }
 
+// On - a convenience method to turn on a light and set its effect to "none"
 func (self *Light) On() ([]Result, error) {
 	state := SetLightState{
 		On:     "true",
@@ -84,11 +89,14 @@ func (self *Light) On() ([]Result, error) {
 	return self.SetState(state)
 }
 
+// Off - a convenience method to turn off a light
 func (self *Light) Off() ([]Result, error) {
 	state := SetLightState{On: "false"}
 	return self.SetState(state)
 }
 
+// ColorLoop - a convenience method to turn on a light and have it begin
+// a colorloop effect
 func (self *Light) ColorLoop() ([]Result, error) {
 	state := SetLightState{
 		On:     "true",
@@ -97,6 +105,8 @@ func (self *Light) ColorLoop() ([]Result, error) {
 	return self.SetState(state)
 }
 
+// SetState sets the state of a light as per
+// http://developers.meethue.com/1_lightsapi.html#16_set_light_state
 func (self *Light) SetState(state SetLightState) ([]Result, error) {
 	params := make(map[string]interface{})
 
