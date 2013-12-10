@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -31,6 +32,12 @@ func (self *Bridge) get(path string) (*http.Response, error) {
 	return http.Get(uri)
 }
 
+func (self *Bridge) post(path string, body io.Reader) (*http.Response, error) {
+	uri := self.toUri(path)
+	log.Printf("POST %s\n", uri)
+	return http.Post(uri, "application/json", body)
+}
+
 func (self *Bridge) put(path string, body io.Reader) (*http.Response, error) {
 	uri := self.toUri(path)
 	log.Printf("PUT %s\n", uri)
@@ -41,6 +48,42 @@ func (self *Bridge) put(path string, body io.Reader) (*http.Response, error) {
 
 	client := &http.Client{}
 	return client.Do(request)
+}
+
+// GetNewLights - retrieves the list lights we've seen since
+// the last scan.  returns the new lights, lastseen, and any error
+// that may have occured as per:
+// http://developers.meethue.com/1_lightsapi.html#12_get_new_lights
+func (self *Bridge) GetNewLights() ([]*Light, string, error) {
+	response, err := self.get("/lights/new")
+	if err != nil {
+		return nil, "", err
+	}
+	defer response.Body.Close()
+
+	data, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return nil, "", err
+	}
+
+	results := make(map[string]interface{})
+	err = json.Unmarshal(data, &results)
+	if err != nil {
+		return nil, "", err
+	}
+
+	lastScan := results["lastscan"].(string)
+
+	var lights []*Light
+	for id, params := range results {
+		if id != "lastscan" {
+			value := params.(map[string]interface{})["name"]
+			light := &Light{Id: id, Name: value.(string)}
+			lights = append(lights, light)
+		}
+	}
+
+	return lights, lastScan, nil
 }
 
 // FindLightById allows you to easily look up light if you know it's Id
@@ -74,6 +117,20 @@ func (self *Bridge) FindLightByName(name string) (*Light, error) {
 	}
 
 	return nil, errors.New("unable to find light with name, " + name)
+}
+
+// Search - for new lights as per
+// http://developers.meethue.com/1_lightsapi.html#13_search_for_new_lights
+func (self *Bridge) Search() ([]Result, error) {
+	response, err := self.post("/lights", nil)
+	if err != nil {
+		return nil, err
+	}
+	defer response.Body.Close()
+
+	var results []Result
+	err = json.NewDecoder(response.Body).Decode(&results)
+	return results, err
 }
 
 // GetAllLights - retrieves all lights the Hue is aware of
