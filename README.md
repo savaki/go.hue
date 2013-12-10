@@ -14,7 +14,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/savaki/hue"
+	"github.com/savaki/go.hue"
 )
 
 func main() {
@@ -34,7 +34,7 @@ func main() {
 package main
 
 import (
-	"github.com/savaki/hue"
+	"github.com/savaki/go.hue"
 )
 
 func main() {
@@ -54,7 +54,7 @@ func main() {
 package main
 
 import (
-	"github.com/savaki/hue"
+	"github.com/savaki/go.hue"
 )
 
 func main() {
@@ -74,7 +74,7 @@ func main() {
 package main
 
 import (
-	"github.com/savaki/hue"
+	"github.com/savaki/go.hue"
 )
 
 func main() {
