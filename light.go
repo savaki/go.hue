@@ -6,6 +6,7 @@ import (
 	"strconv"
 )
 
+// Light - encapsulates the controls for a specific philips hue light
 type Light struct {
 	Id     string
 	Name   string
@@ -48,7 +49,7 @@ type LightAttributes struct {
 
 // GetLightAttributes - retrieves light attributes and state as per
 // http://developers.meethue.com/1_lightsapi.html#14_get_light_attributes_and_state
-func (self Light) GetLightAttributes() (*LightAttributes, error) {
+func (self *Light) GetLightAttributes() (*LightAttributes, error) {
 	response, err := self.bridge.get("/lights/" + self.Id)
 	if err != nil {
 		return nil, err

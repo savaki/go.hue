@@ -8,7 +8,9 @@ import (
 )
 
 // BridgeLocator represents a factory method you can use to obtain a
-// bridge reference.
+// bridge reference.  Depending on whether this is your first time
+// connecting to a bridge and you need a new username or you're reconnecting
+// to an existing bridge, you call #CreateUser and #Attach respectively
 type BridgeLocator interface {
 	// If this is your first time connnecting to a bridge,
 	// you'll want to call CreateUser(deviceType) where deviceType is any
