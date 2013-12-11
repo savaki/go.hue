@@ -1,7 +1,7 @@
 hue
 ===
 
-[![GoDoc](http://godoc.org/github.com/savaki/hue?status.png)](http://godoc.org/github.com/savaki/hue)
+[![GoDoc](http://godoc.org/github.com/savaki/go.hue?status.png)](http://godoc.org/github.com/savaki/go.hue)
 
 An easy to use api to manage your phillips hue.  For documentation, check out the link to godoc above.
 
@@ -14,7 +14,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/savaki/hue"
+	"github.com/savaki/go.hue"
 )
 
 func main() {
@@ -34,7 +34,7 @@ func main() {
 package main
 
 import (
-	"github.com/savaki/hue"
+	"github.com/savaki/go.hue"
 )
 
 func main() {
@@ -54,7 +54,7 @@ func main() {
 package main
 
 import (
-	"github.com/savaki/hue"
+	"github.com/savaki/go.hue"
 )
 
 func main() {
@@ -74,7 +74,7 @@ func main() {
 package main
 
 import (
-	"github.com/savaki/hue"
+	"github.com/savaki/go.hue"
 )
 
 func main() {
