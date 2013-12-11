@@ -40,7 +40,7 @@ func (self localBridge) CreateUser(deviceType string) (*Bridge, error) {
 
 	// create a new user
 	uri := fmt.Sprintf("http://%s/api", self.IpAddr)
-	response, err := http.Post(uri, "text/json", bytes.NewReader(data))
+	response, err := client.Post(uri, "text/json", bytes.NewReader(data))
 	if err != nil {
 		return nil, err
 	}

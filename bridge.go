@@ -29,13 +29,13 @@ func (self *Bridge) toUri(path string) string {
 func (self *Bridge) get(path string) (*http.Response, error) {
 	uri := self.toUri(path)
 	log.Printf("GET %s\n", uri)
-	return http.Get(uri)
+	return client.Get(uri)
 }
 
 func (self *Bridge) post(path string, body io.Reader) (*http.Response, error) {
 	uri := self.toUri(path)
 	log.Printf("POST %s\n", uri)
-	return http.Post(uri, "application/json", body)
+	return client.Post(uri, "application/json", body)
 }
 
 func (self *Bridge) put(path string, body io.Reader) (*http.Response, error) {
@@ -46,7 +46,6 @@ func (self *Bridge) put(path string, body io.Reader) (*http.Response, error) {
 		return nil, err
 	}
 
-	client := &http.Client{}
 	return client.Do(request)
 }
 

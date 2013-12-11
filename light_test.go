@@ -1,7 +1,6 @@
 package hue
 
 import (
-	"encoding/json"
 	"fmt"
 	"testing"
 )
@@ -36,30 +35,6 @@ func TestSetName(t *testing.T) {
 	}
 
 	fmt.Printf("%+v\n", state)
-}
-
-func TestSetLightStateSerializes(t *testing.T) {
-	state := SetLightState{}
-	data, err := json.Marshal(state)
-	if err != nil {
-		t.Fail()
-	}
-	if string(data) != "{}" {
-		fmt.Printf("expected {} ; got => %+v\n", string(data))
-		t.Fail()
-	}
-}
-
-func TestSetLightStateSerializesStringToInt(t *testing.T) {
-	state := SetLightState{Bri: "123"}
-	data, err := json.Marshal(state)
-	if err != nil {
-		t.Fail()
-	}
-	if string(data) != `{"bri":123}` {
-		fmt.Printf(`expected {"bri":123} ; :123 => %+v\n`, string(data))
-		t.Fail()
-	}
 }
 
 func TestColorLoop(t *testing.T) {
