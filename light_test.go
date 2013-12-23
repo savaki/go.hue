@@ -6,7 +6,7 @@ import (
 )
 
 func TestGetLightAttributes(t *testing.T) {
-	bridge := NewBridge("10.0.1.11", username)
+	bridge := NewBridge(host, username)
 	lights, err := bridge.GetAllLights()
 	if err != nil {
 		t.Fail()
@@ -22,7 +22,7 @@ func TestGetLightAttributes(t *testing.T) {
 }
 
 func TestSetName(t *testing.T) {
-	bridge := NewBridge("10.0.1.11", username)
+	bridge := NewBridge(host, username)
 	lights, err := bridge.GetAllLights()
 	if err != nil {
 		t.Fail()
@@ -38,7 +38,7 @@ func TestSetName(t *testing.T) {
 }
 
 func TestColorLoop(t *testing.T) {
-	bridge := NewBridge("10.0.1.11", username)
+	bridge := NewBridge(host, username)
 	light, err := bridge.FindLightById("3")
 	if err != nil {
 		t.Fail()
@@ -52,7 +52,7 @@ func TestColorLoop(t *testing.T) {
 }
 
 func TestOn(t *testing.T) {
-	bridge := NewBridge("10.0.1.11", username)
+	bridge := NewBridge(host, username)
 	light, err := bridge.FindLightById("3")
 	if err != nil {
 		t.Fail()

@@ -9,18 +9,18 @@ import (
 	"testing"
 )
 
+var host = os.Getenv("HUE_HOST")
 var username = os.Getenv("HUE_USERNAME")
 
 func TestDiscoverBridges(t *testing.T) {
-	locators, err := DiscoverBridges()
+	locators, err := DiscoverBridges(false)
 	if err != nil {
 		log.Printf("%+v\n", err)
 		t.Fail()
 	}
 
 	if locators == nil {
-		log.Printf("locators was null!  this should never happen\n")
-		t.Fail()
+		t.Error("locators was null! this should never happen")
 	}
 
 	log.Printf("%+v\n", locators)
@@ -39,7 +39,7 @@ func TestDeserializeComplexMap(t *testing.T) {
 }
 
 func TestGetAllLights(t *testing.T) {
-	bridge := NewBridge("10.0.1.11", username)
+	bridge := NewBridge(host, username)
 	lights, err := bridge.GetAllLights()
 	if err != nil {
 		log.Printf("%+v\n", err)
@@ -47,8 +47,7 @@ func TestGetAllLights(t *testing.T) {
 	}
 
 	if len(lights) != 8 {
-		log.Printf("expected 6 lights\n")
-		t.Fail()
+		t.Error(log.Printf("expected 8 lights"))
 	}
 
 	fmt.Printf("%+v\n", lights)

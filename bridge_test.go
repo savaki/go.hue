@@ -7,7 +7,7 @@ import (
 )
 
 func TestGetNewLights(t *testing.T) {
-	bridge := NewBridge("10.0.1.11", username)
+	bridge := NewBridge(host, username)
 	_, _, err := bridge.GetNewLights()
 	if err != nil {
 		t.Fail()
@@ -15,7 +15,7 @@ func TestGetNewLights(t *testing.T) {
 }
 
 func TestSearchAndGetNewLights(t *testing.T) {
-	bridge := NewBridge("10.0.1.11", username)
+	bridge := NewBridge(host, username)
 	_, err := bridge.Search()
 	if err != nil {
 		fmt.Printf("unable to search => %s\n", err)
@@ -34,10 +34,10 @@ func TestSearchAndGetNewLights(t *testing.T) {
 
 func TestParseGetNewLights(t *testing.T) {
 	data := []byte(`{
-    "7": {"name": "Hue Lamp 7"},
-    "8": {"name": "Hue Lamp 8"},
-    "lastscan": "2012-10-29T12:00:00"
-}`)
+		"7": {"name": "Hue Lamp 7"},
+		"8": {"name": "Hue Lamp 8"},
+		"lastscan": "2012-10-29T12:00:00"
+	}`)
 
 	results := make(map[string]interface{})
 	err := json.Unmarshal(data, &results)
