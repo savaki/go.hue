@@ -1,5 +1,5 @@
-hue
-===
+go.hue
+======
 
 [![GoDoc](http://godoc.org/github.com/savaki/go.hue?status.png)](http://godoc.org/github.com/savaki/go.hue)
 
@@ -18,10 +18,10 @@ import (
 )
 
 func main() {
-	locators, _ := hue.DiscoverBridges()
+	locators, _ := hue.DiscoverBridges(false)
 	locator := locators[0] // find the first locator
 	deviceType := "my nifty app"
-	
+
 	// remember to push the button on your hue first
 	bridge := locator.CreateUser(deviceType)
 	fmt.Printf("registered new device => %+v\n", bridge)
@@ -40,7 +40,7 @@ import (
 func main() {
 	bridge := hue.NewBridge("your-ip-address", "your-username")
 	lights, _ := bridge.GetAllLights()
-	
+
 	for _, light := range lights {
 		light.On()
 	}
@@ -60,7 +60,7 @@ import (
 func main() {
 	bridge := hue.NewBridge("your-ip-address", "your-username")
 	lights, _ := bridge.GetAllLights()
-	
+
 	for _, light := range lights {
 		light.ColorLoop()
 	}
