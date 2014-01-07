@@ -14,6 +14,7 @@ import (
 type Bridge struct {
 	IpAddr   string
 	Username string
+	debug    bool
 }
 
 // NewBridge instantiates a bridge object.  Use this method when you already
@@ -22,25 +23,36 @@ func NewBridge(ipAddr, username string) *Bridge {
 	return &Bridge{IpAddr: ipAddr, Username: username}
 }
 
+func (self *Bridge) Debug() *Bridge {
+	self.debug = true
+	return self
+}
+
 func (self *Bridge) toUri(path string) string {
 	return fmt.Sprintf("http://%s/api/%s%s", self.IpAddr, self.Username, path)
 }
 
 func (self *Bridge) get(path string) (*http.Response, error) {
 	uri := self.toUri(path)
-	log.Printf("GET %s\n", uri)
+	if self.debug {
+		log.Printf("GET %s\n", uri)
+	}
 	return client.Get(uri)
 }
 
 func (self *Bridge) post(path string, body io.Reader) (*http.Response, error) {
 	uri := self.toUri(path)
-	log.Printf("POST %s\n", uri)
+	if self.debug {
+		log.Printf("POST %s\n", uri)
+	}
 	return client.Post(uri, "application/json", body)
 }
 
 func (self *Bridge) put(path string, body io.Reader) (*http.Response, error) {
 	uri := self.toUri(path)
-	log.Printf("PUT %s\n", uri)
+	if self.debug {
+		log.Printf("PUT %s\n", uri)
+	}
 	request, err := http.NewRequest("PUT", uri, body)
 	if err != nil {
 		return nil, err

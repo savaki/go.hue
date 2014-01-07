@@ -12,6 +12,25 @@ import (
 var host = os.Getenv("HUE_HOST")
 var username = os.Getenv("HUE_USERNAME")
 
+func ExampleDiscoverBridges() {
+	locators, _ := DiscoverBridges(false)
+	locator := locators[0] // find the first locator
+	deviceType := "my nifty app"
+
+	// remember to push the button on your hue first
+	bridge, _ := locator.CreateUser(deviceType)
+	fmt.Printf("registered new device => %+v\n", bridge)
+}
+
+func ExampleNewBridge() {
+	bridge := NewBridge("your-ip-address", "your-username")
+	lights, _ := bridge.GetAllLights()
+
+	for _, light := range lights {
+		light.On()
+	}
+}
+
 func TestDiscoverBridges(t *testing.T) {
 	locators, err := DiscoverBridges(false)
 	if err != nil {
@@ -47,7 +66,7 @@ func TestGetAllLights(t *testing.T) {
 	}
 
 	if len(lights) != 8 {
-		t.Error(log.Printf("expected 8 lights"))
+		t.Error("expected 8 lights")
 	}
 
 	fmt.Printf("%+v\n", lights)
