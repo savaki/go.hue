@@ -23,7 +23,7 @@ func main() {
 	deviceType := "my nifty app"
 
 	// remember to push the button on your hue first
-	bridge := locator.CreateUser(deviceType)
+	bridge, _ := locator.CreateUser(deviceType)
 	fmt.Printf("registered new device => %+v\n", bridge)
 }
 ```
