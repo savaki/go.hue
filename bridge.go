@@ -154,7 +154,7 @@ func (self *Bridge) GetAllLights() ([]*Light, error) {
 	defer response.Body.Close()
 
 	// deconstruct the json results
-	var results map[string]map[string]string
+	var results map[string]Light
 	err = json.NewDecoder(response.Body).Decode(&results)
 	if err != nil {
 		return nil, err
@@ -163,7 +163,7 @@ func (self *Bridge) GetAllLights() ([]*Light, error) {
 	// and convert them into lights
 	var lights []*Light
 	for id, params := range results {
-		light := Light{Id: id, Name: params["name"], bridge: self}
+		light := Light{Id: id, Name: params.Name, bridge: self}
 		lights = append(lights, &light)
 	}
 
