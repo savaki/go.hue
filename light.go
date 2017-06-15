@@ -90,6 +90,30 @@ func (self *Light) On() ([]Result, error) {
 	return self.SetState(state)
 }
 
+// Toggle - will switch on or off based on the current state
+func (self *Light) Toggle() ([]Result, error) {
+	attr, err := self.GetLightAttributes()
+	if err != nil {
+		return nil, err
+	}
+
+	var result []Result
+	switch attr.State.On {
+	case true:
+		result, err = self.Off()
+		if err != nil {
+			return nil, err
+		}
+	case false:
+		result, err = self.On()
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return result, nil
+}
+
 // Off - a convenience method to turn off a light
 func (self *Light) Off() ([]Result, error) {
 	state := SetLightState{On: "false"}

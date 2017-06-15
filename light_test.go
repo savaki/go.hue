@@ -64,3 +64,17 @@ func TestOn(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestToggle(t *testing.T) {
+	bridge := NewBridge(host, username)
+	light, err := bridge.FindLightById("3")
+	if err != nil {
+		t.Fail()
+	}
+
+	_, err = light.Toggle()
+	if err != nil {
+		fmt.Printf("unable to toggle light => %s\n", err)
+		t.Fail()
+	}
+}
